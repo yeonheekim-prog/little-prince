@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>어린 왕자 한눈에 보기</title>
+<style>
+  :root{--bg:#0f1733;--card:#fffaf0;--ink:#2b2b2b;--gold:#f4c542;--rose:#e05a6d;--sky:#7fb2ff;--green:#5bb98c}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:radial-gradient(circle at 20% 10%,#24325f,var(--bg) 60%);color:#fff;min-height:100vh}
+  header{text-align:center;padding:22px 12px 8px}
+  header h1{margin:0;font-size:26px}
+  header p{margin:6px 0 0;opacity:.75;font-size:14px}
+  nav{display:flex;gap:8px;justify-content:center;padding:12px;position:sticky;top:0;background:rgba(15,23,51,.9);z-index:5}
+  nav button{border:0;border-radius:20px;padding:10px 16px;font-size:15px;background:#2c3a6b;color:#fff;cursor:pointer}
+  nav button.on{background:var(--gold);color:#222;font-weight:700}
+  section{display:none;max-width:760px;margin:0 auto;padding:10px 14px 40px}
+  section.on{display:block}
+  /* 마인드맵 */
+  .map{background:var(--card);border-radius:18px;padding:8px}
+  .map svg{width:100%;height:auto;display:block}
+  .map text{font-family:inherit}
+  /* 카드뉴스 */
+  .cn{position:relative}
+  .slide{display:none;background:var(--card);color:var(--ink);border-radius:18px;padding:30px 24px;min-height:360px;aspect-ratio:1/1}
+  .slide.on{display:flex;flex-direction:column;justify-content:center}
+  .slide .pg{font-size:13px;color:#999}
+  .slide h2{font-size:24px;margin:8px 0 14px;line-height:1.35}
+  .slide p{font-size:17px;line-height:1.7;margin:6px 0}
+  .slide .em{font-size:44px;margin-bottom:6px}
+  .slide.cover{background:linear-gradient(160deg,#ffe9a8,#ffd1dc)}
+  .ctrl{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+  .ctrl button{border:0;border-radius:12px;padding:12px 20px;font-size:16px;background:#2c3a6b;color:#fff;cursor:pointer}
+  .dots span{display:inline-block;width:8px;height:8px;border-radius:50%;background:#556;margin:0 3px}
+  .dots span.on{background:var(--gold)}
+  /* 퀴즈카드 */
+  .score{text-align:center;font-size:15px;margin-bottom:10px;opacity:.9}
+  .flip{perspective:1000px;cursor:pointer}
+  .inner{position:relative;width:100%;min-height:300px;transition:transform .5s;transform-style:preserve-3d}
+  .flip.turned .inner{transform:rotateY(180deg)}
+  .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;padding:26px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+  .front{background:var(--card);color:var(--ink)}
+  .back{background:#ffe9a8;color:var(--ink);transform:rotateY(180deg)}
+  .face .q{font-size:22px;line-height:1.5;font-weight:700}
+  .face .a{font-size:26px;font-weight:800;color:#c0392b}
+  .face .hint{font-size:14px;color:#888;margin-top:16px}
+  .face .ex{font-size:16px;line-height:1.6;margin-top:10px}
+  .ox{display:none;gap:10px;justify-content:center;margin-top:14px}
+  .ox.show{display:flex}
+  .ox button{border:0;border-radius:12px;padding:14px 22px;font-size:17px;cursor:pointer;color:#fff}
+  .ok{background:var(--green)}.no{background:var(--rose)}
+  .done{background:var(--card);color:var(--ink);border-radius:18px;padding:34px 20px;text-align:center;display:none}
+  .done h2{margin:0 0 10px}
+  .done button{margin-top:14px;border:0;border-radius:12px;padding:12px 22px;font-size:16px;background:var(--gold);cursor:pointer}
+  footer{text-align:center;font-size:12px;opacity:.55;padding:0 0 24px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🌹 어린 왕자 한눈에 보기</h1>
+  <p>클로드로 만든 마인드맵 · 카드뉴스 · 퀴즈 카드</p>
+</header>
+<nav>
+  <button class="on" data-t="map">🗺️ 마인드맵</button>
+  <button data-t="news">📰 카드뉴스</button>
+  <button data-t="quiz">🃏 퀴즈 카드</button>
+</nav>
+
+<!-- 마인드맵 -->
+<section id="map" class="on">
+  <div class="map">
+  <svg viewBox="0 0 720 620" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#c9b98f" stroke-width="3" fill="none">
+      <path d="M360 310 C300 220 220 150 150 110"/>
+      <path d="M360 310 C430 220 500 150 570 110"/>
+      <path d="M360 310 C260 320 190 330 130 330"/>
+      <path d="M360 310 C460 320 530 330 590 330"/>
+      <path d="M360 310 C300 420 230 480 160 520"/>
+      <path d="M360 310 C430 420 500 480 570 520"/>
+    </g>
+    <!-- 가운데 -->
+    <circle cx="360" cy="310" r="72" fill="#f4c542"/>
+    <text x="360" y="302" text-anchor="middle" font-size="24" font-weight="800" fill="#222">어린 왕자</text>
+    <text x="360" y="330" text-anchor="middle" font-size="14" fill="#333">생텍쥐페리, 1943</text>
+
+    <!-- 1 등장인물 -->
+    <rect x="40" y="40" width="220" height="120" rx="16" fill="#dbe8ff"/>
+    <text x="150" y="68" text-anchor="middle" font-size="18" font-weight="700" fill="#1d3b8a">👤 등장인물</text>
+    <text x="150" y="94" text-anchor="middle" font-size="14" fill="#333">나(사막에 떨어진 비행사)</text>
+    <text x="150" y="116" text-anchor="middle" font-size="14" fill="#333">어린 왕자 · 장미</text>
+    <text x="150" y="138" text-anchor="middle" font-size="14" fill="#333">여우 · 뱀</text>
+
+    <!-- 2 왕자의 별 -->
+    <rect x="460" y="40" width="220" height="120" rx="16" fill="#ffe0e6"/>
+    <text x="570" y="68" text-anchor="middle" font-size="18" font-weight="700" fill="#a3243b">🪐 왕자의 별</text>
+    <text x="570" y="94" text-anchor="middle" font-size="14" fill="#333">소행성 B612</text>
+    <text x="570" y="116" text-anchor="middle" font-size="14" fill="#333">화산 3개 · 바오바브 싹</text>
+    <text x="570" y="138" text-anchor="middle" font-size="14" fill="#333">까다로운 장미 한 송이</text>
+
+    <!-- 3 여섯 별 -->
+    <rect x="10" y="260" width="200" height="150" rx="16" fill="#e6f5ec"/>
+    <text x="110" y="288" text-anchor="middle" font-size="18" font-weight="700" fill="#1f6b45">🌍 지구 전 6개 별</text>
+    <text x="110" y="314" text-anchor="middle" font-size="14" fill="#333">왕 · 허영쟁이</text>
+    <text x="110" y="336" text-anchor="middle" font-size="14" fill="#333">술꾼 · 사업가</text>
+    <text x="110" y="358" text-anchor="middle" font-size="14" fill="#333">점등인 · 지리학자</text>
+    <text x="110" y="384" text-anchor="middle" font-size="13" fill="#666">→ 이상한 어른들</text>
+
+    <!-- 4 지구 -->
+    <rect x="510" y="260" width="200" height="150" rx="16" fill="#fff1cc"/>
+    <text x="610" y="288" text-anchor="middle" font-size="18" font-weight="700" fill="#8a5a00">🏜️ 지구에서</text>
+    <text x="610" y="314" text-anchor="middle" font-size="14" fill="#333">뱀을 만남</text>
+    <text x="610" y="336" text-anchor="middle" font-size="14" fill="#333">장미 5,000송이 정원</text>
+    <text x="610" y="358" text-anchor="middle" font-size="14" fill="#333">여우와 친구가 됨</text>
+    <text x="610" y="384" text-anchor="middle" font-size="14" fill="#333">사막에서 우물 찾기</text>
+
+    <!-- 5 여우의 가르침 -->
+    <rect x="30" y="460" width="270" height="140" rx="16" fill="#f1e6ff"/>
+    <text x="165" y="488" text-anchor="middle" font-size="18" font-weight="700" fill="#5b2a9a">🦊 여우의 가르침</text>
+    <text x="165" y="514" text-anchor="middle" font-size="14" fill="#333">길들인다 = 관계를 맺는다</text>
+    <text x="165" y="536" text-anchor="middle" font-size="14" fill="#333">중요한 건 눈에 보이지 않아</text>
+    <text x="165" y="558" text-anchor="middle" font-size="14" fill="#333">함께 보낸 시간이 소중함을 만든다</text>
+    <text x="165" y="580" text-anchor="middle" font-size="14" fill="#333">길들인 것엔 책임이 있다</text>
+
+    <!-- 6 결말 -->
+    <rect x="420" y="460" width="270" height="140" rx="16" fill="#e0f2f7"/>
+    <text x="555" y="488" text-anchor="middle" font-size="18" font-weight="700" fill="#16627a">⭐ 결말</text>
+    <text x="555" y="514" text-anchor="middle" font-size="14" fill="#333">장미가 있는 별로 돌아가려고</text>
+    <text x="555" y="536" text-anchor="middle" font-size="14" fill="#333">뱀의 도움을 받음</text>
+    <text x="555" y="558" text-anchor="middle" font-size="14" fill="#333">비행사는 별을 보며</text>
+    <text x="555" y="580" text-anchor="middle" font-size="14" fill="#333">왕자의 웃음소리를 떠올림</text>
+  </svg>
+  </div>
+</section>
+
+<!-- 카드뉴스 -->
+<section id="news">
+  <div class="cn">
+    <div class="slide cover on"><div class="em">🌹</div><span class="pg">1 / 6</span><h2>어른이 되면 잊어버리는 것<br>『어린 왕자』 한 장씩 요약</h2><p>옆으로 넘겨 보세요 →</p></div>
+    <div class="slide"><div class="em">🐘</div><span class="pg">2 / 6</span><h2>어른들은 모자라고 해요</h2><p>비행사는 어릴 때 코끼리를 삼킨 보아뱀을 그렸어요.</p><p>어른들은 다 "모자네" 했어요. 어른은 숫자와 겉모습만 본다는 이야기로 책이 시작돼요.</p></div>
+    <div class="slide"><div class="em">🪐</div><span class="pg">3 / 6</span><h2>작은 별의 왕자와 장미</h2><p>왕자는 아주 작은 별 B612에 살아요.</p><p>투정 부리는 장미 때문에 속상해서 별을 떠나 여행을 시작해요.</p></div>
+    <div class="slide"><div class="em">👑</div><span class="pg">4 / 6</span><h2>이상한 어른 여섯 명</h2><p>명령만 하는 왕, 칭찬만 듣고 싶은 사람, 별을 세기만 하는 사업가….</p><p>모두 바쁘지만, 정말 중요한 게 뭔지는 몰라요.</p></div>
+    <div class="slide"><div class="em">🦊</div><span class="pg">5 / 6</span><h2>여우가 알려준 비밀</h2><p>장미는 세상에 많지만, <b>내가 시간을 들인 장미</b>는 하나뿐이에요.</p><p>"중요한 건 눈에 보이지 않아." 마음으로 봐야 잘 보여요.</p></div>
+    <div class="slide cover"><div class="em">⭐</div><span class="pg">6 / 6</span><h2>오늘 해볼 질문</h2><p>내가 "길들인" 사람이나 물건은 뭐가 있을까?</p><p>그 소중함을 위해 오늘 시간을 조금 내볼까요?</p></div>
+    <div class="ctrl"><button id="prev">← 이전</button><div class="dots"></div><button id="next">다음 →</button></div>
+  </div>
+</section>
+
+<!-- 퀴즈 카드 -->
+<section id="quiz">
+  <div class="score" id="score"></div>
+  <div class="flip" id="card"><div class="inner">
+    <div class="face front"><div class="q" id="q"></div><div class="hint">👆 눌러서 정답 보기</div></div>
+    <div class="face back"><div class="a" id="a"></div><div class="ex" id="ex"></div></div>
+  </div></div>
+  <div class="ox" id="ox"><button class="ok" id="okBtn">⭕ 맞혔어요</button><button class="no" id="noBtn">❌ 틀렸어요</button></div>
+  <div class="done" id="done"><h2 id="doneT"></h2><p id="doneP"></p><button id="again">다시 하기</button></div>
+</section>
+
+<footer>원작: 앙투안 드 생텍쥐페리 『어린 왕자』 · 내용은 요약입니다</footer>
+
+<script>
+  // 탭
+  document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));
+    document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===b.dataset.t));
+  });
+  // 카드뉴스
+  const slides=[...document.querySelectorAll('.slide')];let si=0;
+  const dots=document.querySelector('.dots');dots.innerHTML=slides.map(()=>'<span></span>').join('');
+  function showS(){slides.forEach((s,i)=>s.classList.toggle('on',i===si));[...dots.children].forEach((d,i)=>d.classList.toggle('on',i===si));}
+  document.getElementById('prev').onclick=()=>{si=(si-1+slides.length)%slides.length;showS()};
+  document.getElementById('next').onclick=()=>{si=(si+1)%slides.length;showS()};
+  let sx=0;const cn=document.querySelector('.cn');
+  cn.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+  cn.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40){si=(si+(dx<0?1:-1)+slides.length)%slides.length;showS()}});
+  showS();
+  // 퀴즈
+  const Q=[
+    ['비행사가 어릴 때 그린 그림은 사실 무엇이었을까요?','코끼리를 삼킨 보아뱀','어른들은 모자 그림이라고 생각했어요.'],
+    ['어린 왕자가 사는 별의 이름은?','소행성 B612','집 한 채보다 조금 큰 아주 작은 별이에요.'],
+    ['왕자가 별에서 매일 뽑아야 했던 나무 싹은?','바오바브나무','그냥 두면 별을 뚫고 부숴버릴 만큼 커져요.'],
+    ['왕자의 별에 핀, 까다롭지만 소중한 꽃은?','장미','왕자는 장미 때문에 속상해서 여행을 떠나요.'],
+    ['왕자가 지구에 오기 전 들른 별은 모두 몇 개일까요?','6개','왕, 허영쟁이, 술꾼, 사업가, 점등인, 지리학자를 만났어요.'],
+    ['별을 세면서 "내 거야"라고 하던 어른은 누구?','사업가','별을 가지기만 하고 아무것도 해주지 않았어요.'],
+    ['지구에서 왕자에게 "길들인다"는 걸 알려준 동물은?','여우','길들인다는 건 서로에게 특별한 사이가 되는 거예요.'],
+    ['여우가 말한 비밀: 중요한 것은 ○○에 보이지 않는다. ○○은?','눈','마음으로 봐야 잘 보인다고 했어요.'],
+    ['정원에 장미가 5,000송이 있어도 왕자의 장미가 특별한 이유는?','왕자가 시간을 들여 돌봐준 장미라서','물 주고, 바람막이 해주고, 이야기를 들어준 장미예요.'],
+    ['비행사와 왕자가 사막에서 함께 찾아낸 것은?','우물','함께 찾았기 때문에 물이 더 달고 맛있었어요.']
+  ];
+  let order=[],qi=0,right=0;
+  const card=document.getElementById('card'),ox=document.getElementById('ox'),done=document.getElementById('done');
+  function start(){order=Q.map((_,i)=>i).sort(()=>Math.random()-.5);qi=0;right=0;done.style.display='none';card.style.display='';showQ()}
+  function showQ(){const was=card.classList.contains('turned');card.classList.remove('turned');ox.classList.remove('show');const [q,a,ex]=Q[order[qi]];
+    setTimeout(()=>{document.getElementById('q').textContent=q;document.getElementById('a').textContent=a;document.getElementById('ex').textContent=ex;},was?250:0);
+    document.getElementById('score').textContent=`${qi+1} / ${Q.length}번째 카드 · 맞힌 개수 ${right}`;}
+  card.onclick=()=>{card.classList.add('turned');ox.classList.add('show')};
+  function next(ok){if(ok)right++;qi++;if(qi<Q.length){showQ()}else{card.style.display='none';ox.classList.remove('show');
+    document.getElementById('score').textContent='';done.style.display='block';
+    document.getElementById('doneT').textContent=`${Q.length}개 중 ${right}개 맞혔어요! ${right>=8?'🌟':right>=5?'👍':'💪'}`;
+    document.getElementById('doneP').textContent=right>=8?'어린 왕자 박사네요!':'틀린 카드는 다시 해보면 금방 외워져요.';}}
+  document.getElementById('okBtn').onclick=()=>next(true);
+  document.getElementById('noBtn').onclick=()=>next(false);
+  document.getElementById('again').onclick=start;
+  start();
+</script>
+</body>
+</html>
